@@ -6,11 +6,11 @@ import { signJWT } from "../../utils/jwt";
 import { RegisterInput, LoginInput } from "./auth.types";
 
 export async function registerUser(input: RegisterInput) {
-  // Check if email or phone already exists
   const existing = await db
     .select()
     .from(users)
     .where(eq(users.email, input.email));
+
   if (existing.length > 0) throw new Error("Email already registered");
 
   const hashed = await hashPassword(input.password);
@@ -23,10 +23,14 @@ export async function registerUser(input: RegisterInput) {
       phone: input.phone,
       email: input.email,
       password: hashed,
+      role: input.role,
       status: input.status ?? "active",
-      createdby: input.createdby ?? "system",
+      created_by: input.created_by ?? "system",
     })
-    .returning();
+    .returning({
+      id: users.id,
+      email: users.email,
+    });
 
   return signJWT({ id: user.id, email: user.email });
 }

@@ -4,8 +4,9 @@ export interface RegisterInput {
   phone: string;
   email: string;
   password: string;
+  role: string;
   status?: string;
-  createdby?: string;
+  created_by?: string;
 }
 
 export interface LoginInput {
