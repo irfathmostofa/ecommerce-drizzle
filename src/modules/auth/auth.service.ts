@@ -1,6 +1,6 @@
 import { db } from "../../config/db";
 import { users } from "../../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { hashPassword, comparePassword } from "../../utils/password";
 import { signJWT } from "../../utils/jwt";
 import { RegisterInput, LoginInput } from "./auth.types";
@@ -48,4 +48,7 @@ export async function loginUser(input: LoginInput) {
   return signJWT({ id: user.id, email: user.email });
 }
 
-
+export async function getAllUsers() {
+  const result = await db.execute(sql`SELECT * FROM users`);
+  return result.rows;
+}

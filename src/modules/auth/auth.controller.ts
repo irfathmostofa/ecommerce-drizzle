@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { registerUser, loginUser } from "./auth.service";
+import { registerUser, loginUser, getAllUsers } from "./auth.service";
 import { RegisterInput, LoginInput } from "./auth.types";
 
 export async function registerHandler(
@@ -23,5 +23,17 @@ export async function loginHandler(
     return reply.code(200).send({ token });
   } catch (error: any) {
     return reply.code(400).send({ error: error.message });
+  }
+}
+
+export async function getUsersHandler(
+  req: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const users = await getAllUsers();
+    return reply.code(200).send(users);
+  } catch (err) {
+    return reply.code(500).send({ error: err.message });
   }
 }
