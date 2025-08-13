@@ -47,3 +47,5 @@ export async function loginUser(input: LoginInput) {
 
   return signJWT({ id: user.id, email: user.email });
 }
+
+
