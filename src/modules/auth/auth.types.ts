@@ -13,3 +13,15 @@ export interface LoginInput {
   email: string;
   password: string;
 }
+
+export interface adminUserInput {
+  user_id: string;
+  username: string;
+  type: string;
+  password: string;
+}
+
+export interface adminInput {
+  username: string;
+  password: string;
+}

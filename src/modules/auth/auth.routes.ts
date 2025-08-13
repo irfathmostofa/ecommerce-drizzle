@@ -3,10 +3,14 @@ import {
   registerHandler,
   loginHandler,
   getUsersHandler,
+  loginHandlerAdmin,
+  registerAdmin,
 } from "./auth.controller";
 
 export default async function authRoutes(fastify: FastifyInstance) {
   fastify.post("/register", registerHandler);
   fastify.post("/login", loginHandler);
   fastify.post("/get-user", getUsersHandler);
+  fastify.post("/register-admin", registerAdmin);
+  fastify.post("/login-admin", loginHandlerAdmin);
 }

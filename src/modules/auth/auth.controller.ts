@@ -1,6 +1,17 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { registerUser, loginUser, getAllUsers } from "./auth.service";
-import { RegisterInput, LoginInput } from "./auth.types";
+import {
+  registerUser,
+  loginUser,
+  getAllUsers,
+  addAdminUser,
+  loginAdmin,
+} from "./auth.service";
+import {
+  RegisterInput,
+  LoginInput,
+  adminInput,
+  adminUserInput,
+} from "./auth.types";
 
 export async function registerHandler(
   req: FastifyRequest<{ Body: RegisterInput }>,
@@ -35,5 +46,29 @@ export async function getUsersHandler(
     return reply.code(200).send(users);
   } catch (err) {
     return reply.code(500).send({ error: err.message });
+  }
+}
+
+export async function registerAdmin(
+  req: FastifyRequest<{ Body: adminUserInput }>,
+  reply: FastifyReply
+) {
+  try {
+    const token = await addAdminUser(req.body);
+    return reply.code(201).send({ token });
+  } catch (error: any) {
+    return reply.code(400).send({ error: error.message });
+  }
+}
+
+export async function loginHandlerAdmin(
+  req: FastifyRequest<{ Body: adminInput }>,
+  reply: FastifyReply
+) {
+  try {
+    const token = await loginAdmin(req.body);
+    return reply.code(200).send({ token });
+  } catch (error: any) {
+    return reply.code(400).send({ error: error.message });
   }
 }
