@@ -8,8 +8,8 @@ import {
 } from "./auth.controller";
 
 export default async function authRoutes(fastify: FastifyInstance) {
-  fastify.post("/register", registerHandler);
-  fastify.post("/login", loginHandler);
+  fastify.post("/register-user", registerHandler);
+  fastify.post("/login-user", loginHandler);
   fastify.post("/get-user", getUsersHandler);
   fastify.post("/register-admin", registerAdmin);
   fastify.post("/login-admin", loginHandlerAdmin);
