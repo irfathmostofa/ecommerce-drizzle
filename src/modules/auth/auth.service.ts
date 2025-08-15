@@ -88,11 +88,11 @@ export async function loginAdmin(input: adminInput) {
     .select()
     .from(adminUser)
     .where(eq(adminUser.username, input.username));
-  if (!logadmin) throw new Error("Invalid email or password");
+  if (!logadmin) throw new Error("Invalid username or password");
 
-  if (!logadmin.password) throw new Error("Invalid email or password");
+  if (!logadmin.password) throw new Error("Invalid username or password");
   const isValid = await comparePassword(input.password, logadmin.password);
-  if (!isValid) throw new Error("Invalid email or password");
+  if (!isValid) throw new Error("Invalid username or password");
 
   return signJWT({ id: logadmin.id, userId: logadmin.user_id });
 }
