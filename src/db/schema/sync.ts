@@ -8,7 +8,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { channels } from "./core";
+import { channels } from "./users";
 
 export const syncLogs = pgTable("sync_logs", {
   id: uuid("id")

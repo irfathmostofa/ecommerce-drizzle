@@ -1,5 +1,17 @@
-import { pgTable, serial, varchar, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  varchar,
+  timestamp,
+  jsonb,
+} from "drizzle-orm/pg-core";
 import { hashPassword } from "../../utils/password";
+
+export const roles = pgTable("roles", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 50 }).notNull().unique(),
+  description: varchar("description"),
+});
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -22,4 +34,13 @@ export const adminUser = pgTable("admin_user", {
   username: varchar("username", { length: 255 }),
   type: varchar("type", { length: 255 }),
   password: varchar("password", { length: 255 }),
+});
+
+export const channels = pgTable("channels", {
+  id: serial("id").primaryKey(),
+  keyName: varchar("key_name", { length: 100 }).notNull().unique(),
+  displayName: varchar("display_name", { length: 255 }).notNull(),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

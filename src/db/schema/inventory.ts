@@ -1,7 +1,7 @@
 import { pgTable, uuid, integer, timestamp } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { variants } from "./products";
-import { channels } from "./core";
+import { channels } from "./users";
 
 export const inventories = pgTable(
   "inventories",

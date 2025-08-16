@@ -7,7 +7,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { channels } from "./core";
+import { channels } from "./users";
 import { products, variants } from "./products";
 
 export const productSources = pgTable(

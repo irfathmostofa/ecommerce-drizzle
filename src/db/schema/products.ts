@@ -11,7 +11,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
-/** Optional: custom tsvector type (for column presence; triggers in SQL) */
 const tsvector = (name: string) =>
   ({
     name,
