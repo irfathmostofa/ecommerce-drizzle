@@ -14,7 +14,7 @@ npm install
 ### 2. Create `.env`
 ```env
 PORT=5000
-JWT_SECRET=bolbona
+JWT_SECRET=
 SUPABASE_DB_URL=postgresql://postgres:YOUR_PASSWORD@db.YOUR_PROJECT.supabase.co:6543/postgres?sslmode=require
 ```
 
