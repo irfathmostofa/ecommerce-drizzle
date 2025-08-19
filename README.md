@@ -1,4 +1,4 @@
-# Ecommerce Drizzle
+# Drizzle with Supabase
 
 This project uses **Drizzle ORM** with **Supabase (Postgres)** as the database.
 
