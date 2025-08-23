@@ -5,12 +5,14 @@ import {
   getAllUsers,
   addAdminUser,
   loginAdmin,
+  addRole,
 } from "./auth.service";
 import {
   RegisterInput,
   LoginInput,
   adminInput,
   adminUserInput,
+  roleInput,
 } from "./auth.types";
 
 export async function registerHandler(
@@ -68,6 +70,18 @@ export async function loginHandlerAdmin(
   try {
     const token = await loginAdmin(req.body);
     return reply.code(200).send({ token });
+  } catch (error: any) {
+    return reply.code(400).send({ error: error.message });
+  }
+}
+
+export async function createRole(
+  req: FastifyRequest<{ Body: roleInput }>,
+  reply: FastifyReply
+) {
+  try {
+    const res = await addRole(req.body);
+    return reply.code(201).send({ res });
   } catch (error: any) {
     return reply.code(400).send({ error: error.message });
   }

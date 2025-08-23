@@ -4,9 +4,9 @@ export interface RegisterInput {
   phone: string;
   email: string;
   password: string;
-  role: string;
-  status?: string;
-  created_by?: string;
+  roleId: number;
+  status: string;
+  created_by: string;
 }
 
 export interface LoginInput {
@@ -15,7 +15,7 @@ export interface LoginInput {
 }
 
 export interface adminUserInput {
-  user_id: string;
+  userId: number;
   username: string;
   type: string;
   password: string;
@@ -24,4 +24,9 @@ export interface adminUserInput {
 export interface adminInput {
   username: string;
   password: string;
+}
+
+export interface roleInput {
+  name: string;
+  description: string;
 }

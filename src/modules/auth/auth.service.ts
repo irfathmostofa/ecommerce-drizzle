@@ -1,5 +1,5 @@
 import { db } from "../../config/db";
-import { adminUser, users } from "../../db/schema";
+import { adminUser, roles, users } from "../../db/schema";
 import { eq, sql } from "drizzle-orm";
 import { hashPassword, comparePassword } from "../../utils/password";
 import { signJWT } from "../../utils/jwt";
@@ -8,6 +8,7 @@ import {
   LoginInput,
   adminUserInput,
   adminInput,
+  roleInput,
 } from "./auth.types";
 
 export async function registerUser(input: RegisterInput) {
@@ -28,7 +29,7 @@ export async function registerUser(input: RegisterInput) {
       phone: input.phone,
       email: input.email,
       password: hashed,
-      role: input.role,
+      roleId: input.roleId,
       status: input.status ?? "active",
       created_by: input.created_by ?? "system",
     })
@@ -55,14 +56,14 @@ export async function loginUser(input: LoginInput) {
 
 export async function getAllUsers() {
   const result = await db.execute(sql`SELECT * FROM users`);
-  return result.rows;
+  return result;
 }
 
 export async function addAdminUser(input: adminUserInput) {
   const existing = await db
     .select()
     .from(adminUser)
-    .where(eq(adminUser.user_id, input.user_id));
+    .where(eq(adminUser.userId, input.userId));
 
   if (existing.length > 0) throw new Error("User already registered");
   const hashed = await hashPassword(input.password);
@@ -70,17 +71,17 @@ export async function addAdminUser(input: adminUserInput) {
   const [admin] = await db
     .insert(adminUser)
     .values({
-      user_id: input.user_id,
+      userId: input.userId,
       username: input.username,
       type: input.type,
       password: hashed,
     })
     .returning({
       id: adminUser.id,
-      user_id: adminUser.user_id,
+      userId: adminUser.userId,
     });
 
-  return signJWT({ id: admin.id, user_id: admin.user_id });
+  return signJWT({ id: admin.id, userId: admin.userId });
 }
 
 export async function loginAdmin(input: adminInput) {
@@ -94,5 +95,20 @@ export async function loginAdmin(input: adminInput) {
   const isValid = await comparePassword(input.password, logadmin.password);
   if (!isValid) throw new Error("Invalid username or password");
 
-  return signJWT({ id: logadmin.id, userId: logadmin.user_id });
+  return signJWT({ id: logadmin.id, userId: logadmin.userId });
+}
+
+export async function addRole(input: roleInput) {
+  const [role] = await db
+    .insert(roles)
+    .values({
+      name: input.name,
+      description: input.description,
+    })
+    .returning({
+      id: roles.id,
+      name: roles.name,
+      description: roles.description,
+    });
+  return role;
 }

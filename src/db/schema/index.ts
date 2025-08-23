@@ -1,5 +1,5 @@
 export * from "./users";
-// export * from "./products";
+export * from "./products";
 // export * from "./sources";
 // export * from "./inventory";
 // export * from "./sync";

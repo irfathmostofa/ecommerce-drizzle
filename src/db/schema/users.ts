@@ -4,6 +4,7 @@ import {
   varchar,
   timestamp,
   integer,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 // Roles Table
@@ -36,4 +37,13 @@ export const adminUser = pgTable("admin_user", {
   username: varchar("username", { length: 255 }),
   type: varchar("type", { length: 255 }),
   password: varchar("password", { length: 255 }),
+});
+
+export const channels = pgTable("channels", {
+  id: serial("id").primaryKey(),
+  keyName: varchar("key_name", { length: 100 }).notNull().unique(),
+  displayName: varchar("display_name", { length: 255 }).notNull(),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
