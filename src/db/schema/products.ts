@@ -12,8 +12,21 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  subCategories: integer("sub_categories").references(() => categories.id, {
+    onDelete: "set null",
+  }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
+  categoryId: integer("category_id").references(() => categories.id, {
+    onDelete: "set null",
+  }),
   sku: varchar("sku", { length: 128 }).unique(),
   title: varchar("title", { length: 1024 }).notNull(),
   description: text("description"),
